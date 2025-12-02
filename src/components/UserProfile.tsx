@@ -6,9 +6,11 @@ import Icon from '@/components/ui/icon';
 interface UserProfileProps {
   onClose: () => void;
   onShowPremium: () => void;
+  onShowStats?: () => void;
+  onShowPrivacy?: () => void;
 }
 
-const UserProfile = ({ onClose, onShowPremium }: UserProfileProps) => {
+const UserProfile = ({ onClose, onShowPremium, onShowStats, onShowPrivacy }: UserProfileProps) => {
   return (
     <div className="flex-1 flex flex-col bg-background animate-fade-in">
       <div className="relative h-48 gradient-purple overflow-hidden">
@@ -141,6 +143,25 @@ const UserProfile = ({ onClose, onShowPremium }: UserProfileProps) => {
             <Icon name="Crown" size={18} className="mr-2" />
             Получить Premium
           </Button>
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <Button 
+              onClick={onShowStats}
+              variant="outline" 
+              className="hover:scale-105 transition-all"
+            >
+              <Icon name="BarChart3" size={18} className="mr-2" />
+              Статистика
+            </Button>
+            <Button 
+              onClick={onShowPrivacy}
+              variant="outline" 
+              className="hover:scale-105 transition-all"
+            >
+              <Icon name="Shield" size={18} className="mr-2" />
+              Приватность
+            </Button>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <Button variant="outline" className="hover:scale-105 transition-all">
