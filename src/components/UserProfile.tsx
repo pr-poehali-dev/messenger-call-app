@@ -5,9 +5,10 @@ import Icon from '@/components/ui/icon';
 
 interface UserProfileProps {
   onClose: () => void;
+  onShowPremium: () => void;
 }
 
-const UserProfile = ({ onClose }: UserProfileProps) => {
+const UserProfile = ({ onClose, onShowPremium }: UserProfileProps) => {
   return (
     <div className="flex-1 flex flex-col bg-background animate-fade-in">
       <div className="relative h-48 gradient-purple overflow-hidden">
@@ -132,6 +133,14 @@ const UserProfile = ({ onClose }: UserProfileProps) => {
               Синхронизировать все контакты
             </Button>
           </div>
+
+          <Button 
+            onClick={onShowPremium}
+            className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:opacity-90 transition-all hover:scale-105 text-white mb-4"
+          >
+            <Icon name="Crown" size={18} className="mr-2" />
+            Получить Premium
+          </Button>
 
           <div className="grid grid-cols-2 gap-4">
             <Button variant="outline" className="hover:scale-105 transition-all">

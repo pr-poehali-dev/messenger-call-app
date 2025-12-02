@@ -4,12 +4,24 @@ import ChatWindow from '@/components/ChatWindow';
 import CallScreen from '@/components/CallScreen';
 import VideoCallScreen from '@/components/VideoCallScreen';
 import UserProfile from '@/components/UserProfile';
+import PremiumModal from '@/components/PremiumModal';
+import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [isCallActive, setIsCallActive] = useState(false);
   const [isVideoCall, setIsVideoCall] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubscribe = (plan: 'monthly' | 'yearly') => {
+    toast({
+      title: 'Подписка активирована!',
+      description: `Premium ${plan === 'monthly' ? 'месячная' : 'годовая'} подписка успешно подключена`,
+    });
+    setShowPremiumModal(false);
+  };
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
@@ -57,8 +69,20 @@ const Index = () => {
       )}
 
       {showProfile && (
-        <UserProfile onClose={() => setShowProfile(false)} />
+        <UserProfile 
+          onClose={() => setShowProfile(false)} 
+          onShowPremium={() => {
+            setShowProfile(false);
+            setShowPremiumModal(true);
+          }}
+        />
       )}
+
+      <PremiumModal
+        isOpen={showPremiumModal}
+        onClose={() => setShowPremiumModal(false)}
+        onSubscribe={handleSubscribe}
+      />
     </div>
   );
 };
