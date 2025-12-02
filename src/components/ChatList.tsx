@@ -12,6 +12,8 @@ interface Chat {
   unread: number;
   online: boolean;
   avatar: string;
+  isGroup?: boolean;
+  membersCount?: number;
 }
 
 interface ChatListProps {
@@ -22,11 +24,13 @@ interface ChatListProps {
 
 const mockChats: Chat[] = [
   { id: 1, name: 'Анна Иванова', lastMessage: 'Привет! Как дела?', time: '14:32', unread: 3, online: true, avatar: 'АИ' },
-  { id: 2, name: 'Дмитрий Петров', lastMessage: 'Созвонимся вечером?', time: '13:15', unread: 0, online: true, avatar: 'ДП' },
-  { id: 3, name: 'Елена Смирнова', lastMessage: 'Спасибо за помощь!', time: '11:48', unread: 1, online: false, avatar: 'ЕС' },
-  { id: 4, name: 'Игорь Козлов', lastMessage: 'Отправил файлы', time: 'Вчера', unread: 0, online: true, avatar: 'ИК' },
-  { id: 5, name: 'Мария Васильева', lastMessage: 'До встречи!', time: 'Вчера', unread: 0, online: false, avatar: 'МВ' },
-  { id: 6, name: 'Алексей Новиков', lastMessage: 'Хорошо, договорились', time: '21.11', unread: 0, online: false, avatar: 'АН' },
+  { id: 2, name: 'Команда разработки', lastMessage: 'Дмитрий: Отправил макеты', time: '13:45', unread: 5, online: true, avatar: '👥', isGroup: true, membersCount: 8 },
+  { id: 3, name: 'Дмитрий Петров', lastMessage: 'Созвонимся вечером?', time: '13:15', unread: 0, online: true, avatar: 'ДП' },
+  { id: 4, name: 'Семья ❤️', lastMessage: 'Мама: Не забудь позвонить', time: '12:20', unread: 2, online: true, avatar: '👨‍👩‍👧', isGroup: true, membersCount: 5 },
+  { id: 5, name: 'Елена Смирнова', lastMessage: 'Спасибо за помощь!', time: '11:48', unread: 1, online: false, avatar: 'ЕС' },
+  { id: 6, name: 'Игорь Козлов', lastMessage: 'Отправил файлы', time: 'Вчера', unread: 0, online: true, avatar: 'ИК' },
+  { id: 7, name: 'Спортзал 💪', lastMessage: 'Алексей: Тренировка в 19:00', time: 'Вчера', unread: 0, online: true, avatar: '🏋️', isGroup: true, membersCount: 12 },
+  { id: 8, name: 'Мария Васильева', lastMessage: 'До встречи!', time: 'Вчера', unread: 0, online: false, avatar: 'МВ' },
 ];
 
 const ChatList = ({ onSelectChat, selectedChatId, onShowProfile }: ChatListProps) => {
@@ -79,18 +83,28 @@ const ChatList = ({ onSelectChat, selectedChatId, onShowProfile }: ChatListProps
             <div className="flex items-start gap-3">
               <div className="relative">
                 <Avatar className="w-12 h-12 border-2 border-primary/20">
-                  <AvatarFallback className="gradient-purple text-white font-semibold">
+                  <AvatarFallback className={chat.isGroup ? 'bg-gradient-to-br from-secondary to-accent text-white font-semibold text-xl' : 'gradient-purple text-white font-semibold'}>
                     {chat.avatar}
                   </AvatarFallback>
                 </Avatar>
-                {chat.online && (
+                {chat.online && !chat.isGroup && (
                   <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-card animate-pulse-slow" />
+                )}
+                {chat.isGroup && (
+                  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full gradient-blue text-white text-[10px] font-bold flex items-center justify-center border-2 border-card">
+                    {chat.membersCount}
+                  </div>
                 )}
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-semibold truncate">{chat.name}</h3>
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="font-semibold truncate">{chat.name}</h3>
+                    {chat.isGroup && (
+                      <Icon name="Users" size={14} className="text-muted-foreground flex-shrink-0" />
+                    )}
+                  </div>
                   <span className="text-xs text-muted-foreground">{chat.time}</span>
                 </div>
                 <div className="flex items-center justify-between">

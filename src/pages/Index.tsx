@@ -2,11 +2,13 @@ import { useState } from 'react';
 import ChatList from '@/components/ChatList';
 import ChatWindow from '@/components/ChatWindow';
 import CallScreen from '@/components/CallScreen';
+import VideoCallScreen from '@/components/VideoCallScreen';
 import UserProfile from '@/components/UserProfile';
 
 const Index = () => {
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [isCallActive, setIsCallActive] = useState(false);
+  const [isVideoCall, setIsVideoCall] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
   return (
@@ -17,10 +19,11 @@ const Index = () => {
         onShowProfile={() => setShowProfile(true)}
       />
       
-      {selectedChat !== null && !isCallActive && !showProfile && (
+      {selectedChat !== null && !isCallActive && !isVideoCall && !showProfile && (
         <ChatWindow
           chatId={selectedChat}
           onStartCall={() => setIsCallActive(true)}
+          onStartVideoCall={() => setIsVideoCall(true)}
           onBack={() => setSelectedChat(null)}
         />
       )}
@@ -43,6 +46,13 @@ const Index = () => {
         <CallScreen
           userName="Анна Иванова"
           onEndCall={() => setIsCallActive(false)}
+        />
+      )}
+
+      {isVideoCall && (
+        <VideoCallScreen
+          userName="Анна Иванова"
+          onEndCall={() => setIsVideoCall(false)}
         />
       )}
 

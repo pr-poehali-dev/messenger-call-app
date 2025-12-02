@@ -14,6 +14,7 @@ interface Message {
 interface ChatWindowProps {
   chatId: number;
   onStartCall: () => void;
+  onStartVideoCall: () => void;
   onBack: () => void;
 }
 
@@ -24,7 +25,7 @@ const mockMessages: Message[] = [
   { id: 4, text: 'Конечно, давай созвонимся?', time: '14:32', isMine: true },
 ];
 
-const ChatWindow = ({ chatId, onStartCall, onBack }: ChatWindowProps) => {
+const ChatWindow = ({ chatId, onStartCall, onStartVideoCall, onBack }: ChatWindowProps) => {
   const [messages, setMessages] = useState<Message[]>(mockMessages);
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -84,6 +85,13 @@ const ChatWindow = ({ chatId, onStartCall, onBack }: ChatWindowProps) => {
         </div>
 
         <div className="flex items-center gap-2">
+          <Button
+            onClick={onStartVideoCall}
+            size="icon"
+            className="gradient-purple hover:opacity-90 transition-all hover:scale-110"
+          >
+            <Icon name="Video" size={20} />
+          </Button>
           <Button
             onClick={onStartCall}
             size="icon"
