@@ -7,9 +7,11 @@ import UserProfile from '@/components/UserProfile';
 import PremiumModal from '@/components/PremiumModal';
 import StatsView from '@/components/StatsView';
 import PrivacySettings from '@/components/PrivacySettings';
+import AuthScreen from '@/components/AuthScreen';
 import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [isCallActive, setIsCallActive] = useState(false);
   const [isVideoCall, setIsVideoCall] = useState(false);
@@ -18,6 +20,18 @@ const Index = () => {
   const [showStats, setShowStats] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const { toast } = useToast();
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+    toast({
+      title: 'Добро пожаловать!',
+      description: 'Вы успешно вошли в систему',
+    });
+  };
+
+  if (!isAuthenticated) {
+    return <AuthScreen onLogin={handleLogin} />;
+  }
 
   const handleSubscribe = (plan: 'monthly' | 'yearly') => {
     toast({
